@@ -1,4 +1,4 @@
-# =Challange-3-Password-Generator
+# Challange-3-Password-Generator
 
 ## Description
 
