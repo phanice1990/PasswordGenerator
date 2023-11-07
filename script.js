@@ -1,69 +1,61 @@
-// character variables
+// Character variables
 var lettersUppercase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 var lettersLowercase = "abcdefghijklmnopqrstuvwxyz";
 var specialCharacters = " !\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~";
 var numbers = "0123456789";
 var charactersToUse = "";
 
-// Get references to the #generate element
+// Get references to the #generate element and #password input
 var generateBtn = document.querySelector("#generate");
 var passwordText = document.querySelector("#password");
 
-
 // Write password to the #password input
 function writePassword() {
-  alert('hi');
+  var generatedPassword = "";
 
-  var password = generatePassword();
-  passwordText.value = password;
+  // Confirmation dialogues
+  var lowercase = confirm("Would you like your password to have lowercase letters?");
+  var uppercase = confirm("Would you like your password to have uppercase letters?");
+  var includeNumbers = confirm("Would you like your password to have numbers?");
+  var specialChars = confirm("Would you like your password to have special characters?");
 
-  // confirmation dialogues
-  var lowercase =       confirm("Would you like your password to have lowercase letters?");
-  var uppercase =       confirm("Would you like your password to have uppercase letters?");
-  var numbers =         confirm("Would you like your password to have numbers?");
-  var specialChars =    confirm("Would you like your password to have special characters?");
-  var lengthOfPassword= prompt("Choose a password with a length in between 8 to 150 characters.");
+  // Prompt for the password length
+  var lengthOfPassword = prompt("Choose a password length in between 8 to 128 characters.");
 
-  // Confirm the password length
-  if (lengthOfPassword > 150 || lengthOfPassword < 8) {
-    alert("Password is not in between 8 to 150 characters. Kindly update your input");
-    var lengthOfPassword = prompt("Choose a password with a length in between 8 to 150 characters.");
-    return "";
+  // Validate the password length
+  if (lengthOfPassword < 8 || lengthOfPassword > 128 || isNaN(lengthOfPassword)) {
+    alert("Invalid password length. Please choose a length between 8 and 128 characters.");
+    return;
   }
 
-  // when no selection has been chosen from the prompts
-  else if (!lowercase && !uppercase && !numbers && !specialChars) {
-    alert("Please select one of the previous character choices.");
-    var lowercase = confirm("Would you like your password to have lowercase letters?");
-    var uppercase = confirm("Would you like your password to have uppercase letters?");
-    var numbers = confirm("Would you like your password to have numbers?");
-    var specialChars = confirm("Would you like your password to have special characters?");
-    return "";
+  // Make sure at least one character type is selected
+  if (!lowercase && !uppercase && !includeNumbers && !specialChars) {
+    alert("Please select at least one character type.");
+    return;
   }
 
-  // generate the password depending on the user's selections
+  // Generate the password based on user's selections
   if (lowercase) {
     charactersToUse += lettersLowercase;
   }
   if (uppercase) {
     charactersToUse += lettersUppercase;
   }
-  if (numbers) {
+  if (includeNumbers) {
     charactersToUse += numbers;
   }
   if (specialChars) {
     charactersToUse += specialCharacters;
   }
 
-  // Select characters from charactersToUse string 
+  // Select characters from charactersToUse string
   for (var i = 0; i < lengthOfPassword; i++) {
     generatedPassword += charactersToUse.charAt(Math.floor(Math.random() * charactersToUse.length));
   }
-  passwordText.value = generatedPassword;
-  var password = generatePassword();
 
+  // Display the generated password in the input field
+  passwordText.value = generatedPassword;
 }
 
-// Call the onPageload function when the page loads
-window.addEventListener("load", writePassword);
+// Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
